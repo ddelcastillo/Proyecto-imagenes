@@ -65,4 +65,4 @@ for bar in bars:
 plt.suptitle('Distribución del número de instancias (clases)')
 plt.savefig('instance_count.png')
 plt.show()
-# input('Press enter to finalize.')
+input('Press enter to finalize.')
