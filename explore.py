@@ -40,8 +40,8 @@ input('Press enter to continue...')
 
 # %% Class instance exploration
 
-# Counts all instances for each image in for all the XML files. Stores them
-# in a dictionary and them plots the frequencies in a bar graph.
+# Counts all instances for each image for all the XML files. Stores them
+# in a dictionary and then plots the frequencies in a bar graph.
 count = {}
 for root, dirs, files in os.walk(os.path.join('.', 'annotations')):
     for annotation in files:
@@ -53,10 +53,16 @@ for root, dirs, files in os.walk(os.path.join('.', 'annotations')):
                 count[instance] += 1
             else:
                 count[instance] = 1
-# Bar graph generation
-fig, ax = plt.subplots(1)
-ax.bar(list(count.keys()), list(count.values()))
-fig.suptitle('Distribución del número de instancias (clases)')
-fig.show()
-fig.savefig('instance_count.png')
-input('Press enter to finalize.')
+# Bar graph generation, taken from https://matplotlib.org/3.3.4/api/_as_gen/matplotlib.pyplot.bar.html
+bars = plt.bar(list(count.keys()), list(count.values()))
+xmin, xmax, ymin, ymax = plt.axis()
+for bar in bars:
+    y = bar.get_height()
+    # Values are set manually for offset of values on top of the bar.
+    off_x = 0.4
+    off_y = int(0.2*(ymax-max(count.values())))     # Value at 80% below top. For all bars.
+    plt.text(bar.get_x() + off_x, y + off_y, y, ha='center')
+plt.suptitle('Distribución del número de instancias (clases)')
+plt.savefig('instance_count.png')
+plt.show()
+# input('Press enter to finalize.')
