@@ -78,21 +78,21 @@ for i in range(n):
         k = list(count.keys()).index(name) % img.ndim
         # Draws a rectangle around the detected area. Color is based on index (kinda generic
         # but not much beyond 4 classes since it might start repeating colors; doesn't matter though).
-        thickness = 2
+        thickness = 2  # Border image thickness
         for j in range(xmin, xmax):
             for d in range(thickness):
-                img[(ymin+d) % img.shape[0], j, k] = 255
-                img[(ymax+d) % img.shape[0], j, k] = 255
+                img[min(ymin+d, img.shape[0]-1), j, k] = 255
+                img[min(ymax+d, img.shape[0]-1), j, k] = 255
                 for e in range(1, img.ndim):
-                    img[(ymin+d) % img.shape[0], j, (k+e) % img.ndim] = 0
-                    img[(ymax+d) % img.shape[0], j, (k+e) % img.ndim] = 0
+                    img[min(ymin+d, img.shape[0]-1), j, (k+e) % img.ndim] = 0
+                    img[min(ymax+d, img.shape[0]-1), j, (k+e) % img.ndim] = 0
         for j in range(ymin, ymax):
             for d in range(thickness):
-                img[j, (xmin+d) % img.shape[1], k] = 255
-                img[j, (xmax+d) % img.shape[1], k] = 255
+                img[j, min(xmin+d, img.shape[1]-1), k] = 255
+                img[j, min(xmax+d, img.shape[1]-1), k] = 255
                 for e in range(1, img.ndim):
-                    img[j, (xmin+d) % img.shape[1], (k+e) % img.ndim] = 0
-                    img[j, (xmax+d) % img.shape[1], (k+e) % img.ndim] = 0
+                    img[j, min(xmin+d, img.shape[1]-1), (k+e) % img.ndim] = 0
+                    img[j, min(xmax+d, img.shape[1]-1), (k+e) % img.ndim] = 0
         # Original dataset has a typo with 'weared' (should be 'worn').
         name = 'mask_worn_incorrectly' if name == 'mask_weared_incorrect' else name
         box_info.append({'ymin': ymin, 'xmin': xmin, 'xmax': xmax, 'name': name})
