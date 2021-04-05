@@ -128,7 +128,7 @@ for bar in bars:
 plt.suptitle('Distribución del número de instancias (clases)')
 plt.savefig('instance_count.png')
 plt.show()
-input('Press enter to finalize.')
+input('Press enter to continue...')
 
 # %% Number of annotations per image.
 instances = dict(sorted(total_instances.items()))
@@ -138,3 +138,4 @@ plt.suptitle('Número de imágenes en función del número de instancias (por im
 plt.xlim([0, max(total_instances.keys())])
 plt.savefig('total_instances.png')
 plt.show()
+input('Press enter to finalize.')
