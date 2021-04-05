@@ -138,7 +138,7 @@ plt.suptitle('Número de imágenes en función del número de instancias (por im
 plt.xlim([0, max(total_instances.keys())])
 plt.savefig('total_instances.png')
 plt.show()
-input('Press enter to finalize.')
+input('Press enter to finalize continue...')
 
 # %% Pie chart generation
 # Max_count is a threshold value used so that the pie chart has visible and readable
@@ -159,4 +159,4 @@ axs.pie(list(mod_instances.values()), labels=[str(i) for i in list(mod_instances
 fig.suptitle('Porcentage del número de total imágenes en función\n del número de instancias (por imagen)')
 fig.show()
 fig.savefig('total_instances_pie.png')
-
+input('Press enter to finalize.')
