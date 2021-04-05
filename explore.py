@@ -139,3 +139,24 @@ plt.xlim([0, max(total_instances.keys())])
 plt.savefig('total_instances.png')
 plt.show()
 input('Press enter to finalize.')
+
+# %% Pie chart generation
+# Max_count is a threshold value used so that the pie chart has visible and readable
+# values, since if all instances are included, image will overflow and become incomprehensible.
+max_count = 10
+max_count_val = 0
+mod_instances = {}
+for i in instances.keys():
+    if i < max_count:
+        mod_instances[i] = instances[i]
+    else:
+        max_count_val += instances[i]
+mod_instances[str(max_count)+'+'] = max_count_val
+fig, axs = plt.subplots()
+# Taken from https://matplotlib.org/stable/gallery/pie_and_polar_charts/pie_features.html
+axs.pie(list(mod_instances.values()), labels=[str(i) for i in list(mod_instances.keys())],
+        autopct='%1.1f%%', startangle=90)
+fig.suptitle('Porcentage del número de total imágenes en función\n del número de instancias (por imagen)')
+fig.show()
+fig.savefig('total_instances_pie.png')
+
