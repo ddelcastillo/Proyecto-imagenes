@@ -8,7 +8,7 @@ from matplotlib.lines import Line2D
 
 # %% Displaying images and annotations
 # Taken from https://docs.python.org/3/library/os.html
-n = 3  # Number of images to select (should be at least 2!).
+n = 4  # Number of images to select (should be at least 2!).
 if n < 2 or n % 1 != 0:
     raise Exception('Invalid number of images (n should be an integer greater or equal to 2).')
 # Randomly selects n images form the database.
@@ -32,16 +32,24 @@ for i in range(n):
 # Counts all instances for each image for all the XML files. Stores them
 # in a dictionary and then plots the frequencies in a bar graph.
 count = {}
+total_instances = {}
 for root, dirs, files in os.walk(os.path.join('.', 'annotations')):
     for annotation in files:
         tree = ET.parse(os.path.join('annotations', annotation))
         root = tree.getroot()
+        c = 0
         for tags in root.findall('object'):
+            c += 1
             instance = tags.find('name').text
             if instance in count:
                 count[instance] += 1
             else:
                 count[instance] = 1
+        if c != 0:
+            if c in total_instances:
+                total_instances[c] += 1
+            else:
+                total_instances[c] = 1
 
 # Hardcoded name of classes in Spanish for further graphs.
 es_keys = list(count.keys())
@@ -70,12 +78,21 @@ for i in range(n):
         k = list(count.keys()).index(name) % img.ndim
         # Draws a rectangle around the detected area. Color is based on index (kinda generic
         # but not much beyond 4 classes since it might start repeating colors; doesn't matter though).
+        thickness = 2
         for j in range(xmin, xmax):
-            img[ymin, j, k] = 255
-            img[ymax, j, k] = 255
+            for d in range(thickness):
+                img[(ymin+d) % img.shape[0], j, k] = 255
+                img[(ymax+d) % img.shape[0], j, k] = 255
+                for e in range(1, img.ndim):
+                    img[(ymin+d) % img.shape[0], j, (k+e) % img.ndim] = 0
+                    img[(ymax+d) % img.shape[0], j, (k+e) % img.ndim] = 0
         for j in range(ymin, ymax):
-            img[j, xmin, k] = 255
-            img[j, xmax, k] = 255
+            for d in range(thickness):
+                img[j, (xmin+d) % img.shape[1], k] = 255
+                img[j, (xmax+d) % img.shape[1], k] = 255
+                for e in range(1, img.ndim):
+                    img[j, (xmin+d) % img.shape[1], (k+e) % img.ndim] = 0
+                    img[j, (xmax+d) % img.shape[1], (k+e) % img.ndim] = 0
         # Original dataset has a typo with 'weared' (should be 'worn').
         name = 'mask_worn_incorrectly' if name == 'mask_weared_incorrect' else name
         box_info.append({'ymin': ymin, 'xmin': xmin, 'xmax': xmax, 'name': name})
@@ -112,3 +129,12 @@ plt.suptitle('Distribución del número de instancias (clases)')
 plt.savefig('instance_count.png')
 plt.show()
 input('Press enter to finalize.')
+
+# %% Number of annotations per image.
+instances = dict(sorted(total_instances.items()))
+bars = plt.bar(list(instances.keys()), list(instances.values()))
+xmin, xmax, ymin, ymax = plt.axis()
+plt.suptitle('Número de imágenes en función del número de instancias (por imagen)')
+plt.xlim([0, max(total_instances.keys())])
+plt.savefig('total_instances.png')
+plt.show()
