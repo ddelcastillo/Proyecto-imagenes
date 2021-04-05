@@ -8,7 +8,7 @@ from matplotlib.lines import Line2D
 
 # %% Displaying images and annotations
 # Taken from https://docs.python.org/3/library/os.html
-n = 2  # Number of images to select (should be at least 2!).
+n = 3  # Number of images to select (should be at least 2!).
 if n < 2 or n % 1 != 0:
     raise Exception('Invalid number of images (n should be an integer greater or equal to 2).')
 # Randomly selects n images form the database.
@@ -42,6 +42,12 @@ for root, dirs, files in os.walk(os.path.join('.', 'annotations')):
                 count[instance] += 1
             else:
                 count[instance] = 1
+
+# Hardcoded name of classes in Spanish for further graphs.
+es_keys = list(count.keys())
+es_keys[es_keys.index('without_mask')] = 'Sin máscara'
+es_keys[es_keys.index('with_mask')] = 'Con máscara'
+es_keys[es_keys.index('mask_weared_incorrect')] = 'Máscara mal usada'
 
 # %% Generating image annotation.
 # If annotations should be written above the box.
@@ -86,7 +92,7 @@ fig.suptitle('Imágenes y sus correspondientes instancias detectadas (anotacione
 custom_lines = []
 for i in range(img.ndim):
     custom_lines.append(Line2D([0], [0], color='rgb'[i % 3], lw=4))
-fig.legend(custom_lines, ['without_mask', 'with_mask', 'mask_worn_incorrectly'], loc='lower right')
+fig.legend(custom_lines, es_keys, loc='lower right')
 fig.show()
 fig.savefig('sample_database_images.png')
 input('Press enter to continue...')
@@ -94,7 +100,7 @@ input('Press enter to continue...')
 # %% Bar graph generation
 # Bar graph generation, taken from https://matplotlib.org/3.3.4/api/_as_gen/matplotlib.pyplot.bar.html
 # Hardcoded classes since there is a typo 'weared' (should be 'worn').
-bars = plt.bar(['without_mask', 'with_mask', 'mask_worn_incorrectly'], list(count.values()))
+bars = plt.bar(es_keys, list(count.values()))
 xmin, xmax, ymin, ymax = plt.axis()
 for bar in bars:
     y = bar.get_height()
