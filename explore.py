@@ -71,10 +71,10 @@ for i in range(n):
     for tags in root.findall('object'):
         name = tags.find('name').text
         box = tags.find('bndbox')
-        xmin = max(0, int(box.find('xmin').text)) % img.shape[1]
-        xmax = max(0, int(box.find('xmax').text)) % img.shape[1]
-        ymin = max(0, int(box.find('ymin').text)) % img.shape[0]
-        ymax = max(0, int(box.find('ymax').text)) % img.shape[0]
+        xmin = min(int(box.find('xmin').text), img.shape[1]-1)
+        xmax = min(int(box.find('xmax').text), img.shape[1]-1)
+        ymin = min(int(box.find('ymin').text), img.shape[0]-1)
+        ymax = min(int(box.find('ymax').text), img.shape[0]-1)
         k = list(count.keys()).index(name) % img.ndim
         # Draws a rectangle around the detected area. Color is based on index (kinda generic
         # but not much beyond 4 classes since it might start repeating colors; doesn't matter though).
