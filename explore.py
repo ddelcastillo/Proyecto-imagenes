@@ -13,7 +13,7 @@ if n < 2 or n % 1 != 0:
     raise Exception('Invalid number of images (n should be an integer greater or equal to 2).')
 # Randomly selects n images form the database.
 selected_images = []
-for root, dirs, files in os.walk(os.path.join('.', 'images')):
+for root, dirs, files in os.walk(os.path.join('images')):
     selected_images = random.sample(files, n)
 # Taken from https://docs.python.org/3/library/xml.etree.elementtree.html
 # Based on the randomly selected images, gets the instance information
@@ -33,7 +33,7 @@ for i in range(n):
 # in a dictionary and then plots the frequencies in a bar graph.
 count = {}
 total_instances = {}
-for root, dirs, files in os.walk(os.path.join('.', 'annotations')):
+for root, dirs, files in os.walk(os.path.join('annotations')):
     for annotation in files:
         tree = ET.parse(os.path.join('annotations', annotation))
         root = tree.getroot()
