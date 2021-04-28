@@ -13,7 +13,7 @@ if n < 2 or n % 1 != 0:
     raise Exception('Invalid number of images (n should be an integer greater or equal to 2).')
 # Randomly selects n images form the database.
 selected_images = []
-for root, dirs, files in os.walk(os.path.join('.', 'images')):
+for root, dirs, files in os.walk(os.path.join('images')):
     selected_images = random.sample(files, n)
 # Taken from https://docs.python.org/3/library/xml.etree.elementtree.html
 # Based on the randomly selected images, gets the instance information
@@ -33,7 +33,7 @@ for i in range(n):
 # in a dictionary and then plots the frequencies in a bar graph.
 count = {}
 total_instances = {}
-for root, dirs, files in os.walk(os.path.join('.', 'annotations')):
+for root, dirs, files in os.walk(os.path.join('annotations')):
     for annotation in files:
         tree = ET.parse(os.path.join('annotations', annotation))
         root = tree.getroot()
@@ -156,7 +156,7 @@ fig, axs = plt.subplots()
 # Taken from https://matplotlib.org/stable/gallery/pie_and_polar_charts/pie_features.html
 axs.pie(list(mod_instances.values()), labels=[str(i) for i in list(mod_instances.keys())],
         autopct='%1.1f%%', startangle=90)
-fig.suptitle('Porcentage del número de total imágenes en función\n del número de instancias (por imagen)')
+fig.suptitle('Porcentaje del número de total imágenes en función\n del número de instancias (por imagen)')
 fig.show()
 fig.savefig('total_instances_pie.png')
 input('Press enter to finalize.')
