@@ -3,3 +3,20 @@
 annotations/
 
 images/
+Test/WithMask/
+
+Test/WithoutMask/
+
+Train/WithMask/
+
+Train/WithoutMask/
+
+Validation/WithMask/
+
+Validation/WithoutMask/
+
+data
+
+*.h5
+
+model_2

@@ -156,7 +156,7 @@ fig, axs = plt.subplots()
 # Taken from https://matplotlib.org/stable/gallery/pie_and_polar_charts/pie_features.html
 axs.pie(list(mod_instances.values()), labels=[str(i) for i in list(mod_instances.keys())],
         autopct='%1.1f%%', startangle=90)
-fig.suptitle('Porcentage del número de total imágenes en función\n del número de instancias (por imagen)')
+fig.suptitle('Porcentaje del número de total imágenes en función\n del número de instancias (por imagen)')
 fig.show()
 fig.savefig('total_instances_pie.png')
 input('Press enter to finalize.')
