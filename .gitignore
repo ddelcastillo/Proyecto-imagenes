@@ -48,3 +48,5 @@ Y_train_hog.npy
 *.joblib
 
 *.npy
+
+__pycache__/utils.cpython-37.pyc
