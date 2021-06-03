@@ -50,3 +50,5 @@ Y_train_hog.npy
 *.npy
 
 __pycache__/utils.cpython-37.pyc
+
+libs/__pycache__/

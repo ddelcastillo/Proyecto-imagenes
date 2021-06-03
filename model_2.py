@@ -165,3 +165,8 @@ for i, j in indices[y_hat == -1]:
     ax.add_patch(plt.Rectangle((j, i), global_patch_size[0], global_patch_size[1], edgecolor='red', alpha=0.3, lw=2,
                                facecolor='none'))
 fig.show()
+# %%
+import pickle
+class_model = pickle.load(open(os.path.join('modelos', 'best_model_RF.pkl'), 'rb'))
+# %% Joblib
+joblib.dump(class_model, 'classifier_model2.joblib')
